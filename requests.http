@@ -1,0 +1,30 @@
+POST http://localhost:8585/v1/rides
+Content-Type: application/json
+
+{
+  "type": "BIKE",
+  "stations": [
+    {
+      "lat" : 1.0,
+      "lng": 2.0,
+      "type" : "PICKUP",
+      "idx" : 0
+    }
+  ]
+}
+
+###
+
+PUT http://localhost:8585/v1/rides/4/accept
+
+###
+
+PUT http://localhost:8585/v1/rides/4/finish
+
+###
+
+PUT http://localhost:8585/v1/rides/4/cancel
+
+###
+
+GET http://localhost:8585/v1/rides?type=BIKE
