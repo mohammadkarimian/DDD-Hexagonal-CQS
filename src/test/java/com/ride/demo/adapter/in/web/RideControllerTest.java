@@ -83,32 +83,35 @@ class RideControllerTest {
 
     @Test
     void shouldCancelRideWhenRequestIsValid() throws Exception {
-        mockMvc.perform(put("/v1/rides/1/cancel")
+        var id = "1";
+        mockMvc.perform(put("/v1/rides/{rideId}/cancel",id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
         then(cancelRideUseCase).should()
-                .cancel(new CancelRideCommand(new Ride.RideId("1")));
+                .cancel(new CancelRideCommand(new Ride.RideId(id)));
     }
 
     @Test
     void shouldFinishRideWhenRequestIsValid() throws Exception {
-        mockMvc.perform(put("/v1/rides/1/finish")
+        var id = "1";
+        mockMvc.perform(put("/v1/rides/{rideId}/finish", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
         then(finishRideUseCase).should()
-                .finish(new FinishRideCommand(new Ride.RideId("1")));
+                .finish(new FinishRideCommand(new Ride.RideId(id)));
     }
 
     @Test
     void shouldAcceptRideWhenRequestIsValid() throws Exception {
-        mockMvc.perform(put("/v1/rides/1/accept")
+        var id = "1";
+        mockMvc.perform(put("/v1/rides/{rideId}/accept", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
         then(acceptRideUseCase).should()
-                .accept(new AcceptRideCommand(new Ride.RideId("1")));
+                .accept(new AcceptRideCommand(new Ride.RideId(id)));
     }
 
     @Test
