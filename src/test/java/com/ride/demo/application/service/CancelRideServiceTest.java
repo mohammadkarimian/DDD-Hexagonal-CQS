@@ -63,30 +63,6 @@ class CancelRideServiceTest {
     }
 
     @Test
-    void shouldNotCancelRideWithNullRideIdValue() {
-        var command = new CancelRideCommand(new Ride.RideId(null));
-
-        assertThrows(IllegalArgumentException.class,
-                () -> cancelRideService.cancel(command)
-        );
-
-        verify(loadRidePort, never()).load(any());
-        verify(saveRidePort, never()).save(any());
-    }
-
-    @Test
-    void shouldNotCancelRideWithNullRideId() {
-        var command = new CancelRideCommand(null);
-
-        assertThrows(IllegalArgumentException.class,
-                () -> cancelRideService.cancel(command)
-        );
-
-        verify(loadRidePort, never()).load(any());
-        verify(saveRidePort, never()).save(any());
-    }
-
-    @Test
     void shouldNotCancelRideWithNullCommand() {
         assertThrows(IllegalArgumentException.class,
                 () -> cancelRideService.cancel(null)

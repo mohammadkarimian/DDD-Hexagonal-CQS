@@ -18,6 +18,9 @@ public class SubmitRideService implements SubmitRideUseCase {
 
     @Override
     public void submit(SubmitRideCommand command) {
+        if (command == null)
+            throw new IllegalArgumentException("command must not be null");
+
         Ride ride = Ride.createRide(
                 command.passengerId(),
                 new Invoice(null, BigDecimal.valueOf(9000), BigDecimal.valueOf(10000), BigDecimal.valueOf(1000)),

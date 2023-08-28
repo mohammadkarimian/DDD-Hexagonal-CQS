@@ -4,7 +4,6 @@ import com.ride.demo.application.port.in.CancelRideUseCase;
 import com.ride.demo.application.port.in.commands.CancelRideCommand;
 import com.ride.demo.application.port.out.LoadRidePort;
 import com.ride.demo.application.port.out.SaveRidePort;
-import org.apache.logging.log4j.util.Strings;
 
 public class CancelRideService implements CancelRideUseCase {
 
@@ -18,15 +17,11 @@ public class CancelRideService implements CancelRideUseCase {
 
     @Override
     public void cancel(CancelRideCommand command) {
-        checkCommand(command);
+        if (command == null)
+            throw new IllegalArgumentException("command must not be null");
 
         var ride = loadRidePort.load(command.id());
         ride.cancel();
         saveRidePort.save(ride);
-    }
-
-    private void checkCommand(CancelRideCommand command) {
-        if (command == null || command.id() == null || Strings.isEmpty(command.id().value()))
-            throw new IllegalArgumentException("invalid command");
     }
 }

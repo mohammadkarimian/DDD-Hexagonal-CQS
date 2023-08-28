@@ -41,36 +41,4 @@ class SubmitRideServiceTest {
         assertEquals(command.stations().size(), ride.getStations().size());
         assertEquals(command.passengerId().value(), ride.getPassengerId().value());
     }
-
-    @Test
-    void shouldThrowExceptionWhenTypeIsNull() {
-        var stations = List.of(new Station(null, 0, Station.Type.PICKUP, new Station.Point(1.0, 1.0)));
-        var command = new SubmitRideCommand(null, stations, new Ride.PassengerId("12345678"));
-
-        var exception = assertThrows(IllegalArgumentException.class,
-                () -> submitRideService.submit(command));
-
-        assertEquals("Type could not be null", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowExceptionWhenStationsIsNull() {
-        var command = new SubmitRideCommand(Ride.Type.BIKE, null, new Ride.PassengerId("12345678"));
-
-        var exception = assertThrows(IllegalArgumentException.class,
-                () -> submitRideService.submit(command));
-
-        assertEquals("Stations could not be null", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowExceptionWhenPassengerIdIsNull() {
-        var stations = List.of(new Station(null, 0, Station.Type.PICKUP, new Station.Point(1.0, 1.0)));
-        var command = new SubmitRideCommand(Ride.Type.BIKE, stations, null);
-
-        var exception = assertThrows(IllegalArgumentException.class,
-                () -> submitRideService.submit(command));
-
-        assertEquals("Passenger id could not be null", exception.getMessage());
-    }
 }

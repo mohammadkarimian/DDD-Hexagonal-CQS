@@ -4,7 +4,6 @@ import com.ride.demo.application.port.in.FinishRideUseCase;
 import com.ride.demo.application.port.in.commands.FinishRideCommand;
 import com.ride.demo.application.port.out.LoadRidePort;
 import com.ride.demo.application.port.out.SaveRidePort;
-import org.apache.logging.log4j.util.Strings;
 
 public class FinishRideService implements FinishRideUseCase {
 
@@ -18,15 +17,12 @@ public class FinishRideService implements FinishRideUseCase {
 
     @Override
     public void finish(FinishRideCommand command) {
-        checkCommand(command);
+        if (command == null)
+            throw new IllegalArgumentException("command must not be null");
 
         var ride = loadRidePort.load(command.id());
         ride.finish();
         saveRidePort.save(ride);
     }
 
-    private void checkCommand(FinishRideCommand command) {
-        if (command == null || command.id() == null || Strings.isEmpty(command.id().value()))
-            throw new IllegalArgumentException("invalid command");
-    }
 }

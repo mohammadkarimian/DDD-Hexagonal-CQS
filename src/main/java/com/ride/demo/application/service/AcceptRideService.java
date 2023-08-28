@@ -4,7 +4,6 @@ import com.ride.demo.application.port.in.AcceptRideUseCase;
 import com.ride.demo.application.port.in.commands.AcceptRideCommand;
 import com.ride.demo.application.port.out.LoadRidePort;
 import com.ride.demo.application.port.out.SaveRidePort;
-import org.apache.logging.log4j.util.Strings;
 
 public class AcceptRideService implements AcceptRideUseCase {
 
@@ -18,15 +17,11 @@ public class AcceptRideService implements AcceptRideUseCase {
 
     @Override
     public void accept(AcceptRideCommand command) {
-        checkCommand(command);
+        if (command == null)
+            throw new IllegalArgumentException("command must not be null");
 
         var ride = loadRidePort.load(command.id());
         ride.accept();
         saveRidePort.save(ride);
-    }
-
-    private void checkCommand(AcceptRideCommand command) {
-        if (command == null || command.id() == null || Strings.isEmpty(command.id().value()))
-            throw new IllegalArgumentException("invalid command");
     }
 }

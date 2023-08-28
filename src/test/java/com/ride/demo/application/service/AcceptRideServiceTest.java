@@ -63,30 +63,6 @@ class AcceptRideServiceTest {
     }
 
     @Test
-    void shouldNotAcceptRideWithNullRideIdValue() {
-        var command = new AcceptRideCommand(new Ride.RideId(null));
-
-        assertThrows(IllegalArgumentException.class,
-                () -> acceptRideService.accept(command)
-        );
-
-        verify(loadRidePort, never()).load(any());
-        verify(saveRidePort, never()).save(any());
-    }
-
-    @Test
-    void shouldNotAcceptRideWithNullRideId() {
-        var command = new AcceptRideCommand(null);
-
-        assertThrows(IllegalArgumentException.class,
-                () -> acceptRideService.accept(command)
-        );
-
-        verify(loadRidePort, never()).load(any());
-        verify(saveRidePort, never()).save(any());
-    }
-
-    @Test
     void shouldNotAcceptRideWithNullCommand() {
         assertThrows(IllegalArgumentException.class,
                 () -> acceptRideService.accept(null)

@@ -64,30 +64,6 @@ class FinishRideServiceTest {
     }
 
     @Test
-    void shouldNotFinishRideWithNullRideIdValue() {
-        var command = new FinishRideCommand(new Ride.RideId(null));
-
-        assertThrows(IllegalArgumentException.class,
-                () -> finishRideService.finish(command)
-        );
-
-        verify(loadRidePort, never()).load(any());
-        verify(saveRidePort, never()).save(any());
-    }
-
-    @Test
-    void shouldNotFinishRideWithNullRideId() {
-        var command = new FinishRideCommand(null);
-
-        assertThrows(IllegalArgumentException.class,
-                () -> finishRideService.finish(command)
-        );
-
-        verify(loadRidePort, never()).load(any());
-        verify(saveRidePort, never()).save(any());
-    }
-
-    @Test
     void shouldNotFinishRideWithNullCommand() {
         assertThrows(IllegalArgumentException.class,
                 () -> finishRideService.finish(null)
