@@ -14,6 +14,7 @@ import com.ride.demo.domain.Station;
 import com.ride.demo.dtos.RideDTO;
 import com.ride.demo.queries.FindRideQuery;
 import com.ride.demo.queries.criteria.RideCriteria;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,6 +46,7 @@ public class RideController {
     }
 
     @PostMapping
+    @Operation(summary = "Submit a new Ride")
     public ResponseEntity<Void> submit(@Valid @RequestBody SubmitRideRequest request) {
         var stations = request.stations()
                 .stream()
@@ -61,6 +63,7 @@ public class RideController {
     }
 
     @PutMapping("/{id}/accept")
+    @Operation(summary = "Accept the ride by its id")
     public ResponseEntity<Void> acceptRide(@PathVariable("id") String rideId) {
 
         acceptRideUseCase.accept(new AcceptRideCommand(
@@ -71,6 +74,7 @@ public class RideController {
     }
 
     @PutMapping("/{id}/cancel")
+    @Operation(summary = "Cancel the ride by its id")
     public ResponseEntity<Void> cancelRide(@PathVariable("id") String rideId) {
 
         cancelRideUseCase.cancel(new CancelRideCommand(
@@ -81,6 +85,7 @@ public class RideController {
     }
 
     @PutMapping("/{id}/finish")
+    @Operation(summary = "Finish the ride by its id")
     public ResponseEntity<Void> finishRide(@PathVariable("id") String rideId) {
 
         finishRideUseCase.finish(new FinishRideCommand(
@@ -91,10 +96,11 @@ public class RideController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<RideDTO>> getPassengerRides(@RequestParam(value = "type", required = false) String type,
-                                                           @RequestParam(value = "status", required = false) String status,
-                                                           @RequestParam(value = "passenger-id", required = false) String passengerId,
-                                                           Pageable pageable) {
+    @Operation(summary = "Get page of rides by its type, status and passenger-id")
+    public ResponseEntity<Page<RideDTO>> getRides(@RequestParam(value = "type", required = false) String type,
+                                                  @RequestParam(value = "status", required = false) String status,
+                                                  @RequestParam(value = "passenger-id", required = false) String passengerId,
+                                                  Pageable pageable) {
         var criteria = new RideCriteria(passengerId, type, status);
         return ResponseEntity.ok(findRideQuery.findRides(criteria, pageable));
     }
