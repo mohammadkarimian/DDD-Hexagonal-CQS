@@ -21,6 +21,7 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.MariaDBContainer;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -115,6 +116,45 @@ class RidePersistenceAdapterTest {
 
         ride2.setStatus("ACCEPTED");
         assertThrows(ObjectOptimisticLockingFailureException.class, () -> rideRepository.save(ride2));
+    }
+
+    @ParameterizedTest
+    @MethodSource("com.ride.demo.adapter.out.persistence.params.RideEntityParameter#validPendingRides")
+    void shouldNotUpdateCreatedAtColumnWhenEntityIsUpdated(RideEntity rideEntity, InvoiceEntity invoiceEntity, List<StationEntity> stationEntities) {
+
+        final var rideId = rideRepository.save(rideEntity).getId();
+        invoiceEntity.setRideId(rideId);
+        stationEntities.forEach(s -> s.setRideId(rideId));
+        final var invoiceId = invoiceRepository.save(invoiceEntity).getId();
+        final var stationId = stationRepository.save(stationEntities.stream().findFirst().orElse(new StationEntity())).getId();
+
+        var savedRide = rideRepository.findById(rideId).orElseThrow(EntityNotFoundException::new);
+        var savedInvoice = invoiceRepository.findById(invoiceId).orElseThrow(EntityNotFoundException::new);
+        var savedStation = stationRepository.findById(stationId).orElseThrow(EntityNotFoundException::new);
+
+        var expectedRideCreatedAt = savedRide.getCreatedAt();
+        var expectedInvoiceCreatedAt = savedInvoice.getCreatedAt();
+        var expectedStationsCreatedAt = savedStation.getCreatedAt();
+
+        savedRide.setCreatedAt(null);
+        savedRide.setStatus("ACCEPTED");
+        rideRepository.save(savedRide);
+
+        savedInvoice.setCreatedAt(null);
+        savedInvoice.setDriverFare(BigDecimal.valueOf(100000));
+        invoiceRepository.save(savedInvoice);
+
+        savedStation.setCreatedAt(null);
+        savedStation.setLng(6.0);
+        stationRepository.save(savedStation);
+
+        var updatedRideEntity = rideRepository.findById(rideId).orElseThrow(EntityNotFoundException::new);
+        var updatedInvoiceEntity = invoiceRepository.findById(invoiceId).orElseThrow(EntityNotFoundException::new);
+        var updatedStationEntity = stationRepository.findById(stationId).orElseThrow(EntityNotFoundException::new);
+
+        assertEquals(expectedRideCreatedAt, updatedRideEntity.getCreatedAt());
+        assertEquals(expectedInvoiceCreatedAt, updatedInvoiceEntity.getCreatedAt());
+        assertEquals(expectedStationsCreatedAt, updatedStationEntity.getCreatedAt());
     }
 
 }
