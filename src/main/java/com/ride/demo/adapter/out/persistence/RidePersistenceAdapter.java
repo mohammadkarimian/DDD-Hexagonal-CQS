@@ -42,7 +42,7 @@ public class RidePersistenceAdapter
     }
 
     @Override
-    @Transactional
+    @Transactional(timeout = 5)
     public void save(Ride ride) {
         var rideEntity = rideRepository.save(rideEntityMapper.toEntity(ride));
         invoiceRepository.save(invoiceEntityMapper.toEntity(ride.getInvoice(), rideEntity.getId()));

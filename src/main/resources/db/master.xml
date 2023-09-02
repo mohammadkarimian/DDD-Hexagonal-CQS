@@ -5,5 +5,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <include file="db/changelog/09-01-changelog.xml"/>
+    <include file="db/changelog/02-01-add-oplock-column-changelog.xml"/>
 
 </databaseChangeLog>

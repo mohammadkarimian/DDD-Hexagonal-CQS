@@ -20,6 +20,7 @@ public class RideEntityMapper {
         entity.setType(ride.getType() != null ? ride.getType().name() : null);
         entity.setStatus(ride.getStatus() != null ? ride.getStatus().name() : null);
         entity.setPassengerId(ride.getPassengerId() != null ? ride.getPassengerId().value() : null);
+        entity.setVersion(ride.getVersion());
         return entity;
     }
 
@@ -32,6 +33,7 @@ public class RideEntityMapper {
                 invoice,
                 stations,
                 Ride.Type.valueOf(entity.getType()),
-                Ride.Status.valueOf(entity.getStatus()));
+                Ride.Status.valueOf(entity.getStatus()),
+                entity.getVersion());
     }
 }

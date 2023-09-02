@@ -15,8 +15,10 @@ public class Ride {
     private final List<Station> stations;
     private final Type type;
     private Status status;
+    private final Integer version;
 
-    public Ride(RideId id, PassengerId passengerId, Invoice invoice, List<Station> stations, Type type, Status status) {
+    public Ride(RideId id, PassengerId passengerId, Invoice invoice,
+                List<Station> stations, Type type, Status status, Integer version) {
         if (status == null)
             throw new IllegalArgumentException("Status could not be null");
 
@@ -41,6 +43,7 @@ public class Ride {
         this.stations = stations;
         this.type = type;
         this.status = status;
+        this.version = version;
     }
 
     public enum Type {
@@ -74,7 +77,8 @@ public class Ride {
                 invoice,
                 stations,
                 type,
-                Status.PENDING
+                Status.PENDING,
+                null
         );
     }
 

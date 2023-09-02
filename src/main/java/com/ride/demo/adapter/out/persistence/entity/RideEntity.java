@@ -31,6 +31,10 @@ public class RideEntity {
     @Column(name = "status", nullable = false)
     private String status;
 
+    @Version
+    @Column(name="OPTLOCK")
+    private Integer version;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
