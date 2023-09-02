@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.MariaDBContainer;
 
@@ -98,6 +99,22 @@ class RidePersistenceAdapterTest {
     void shouldNotLoadRideWithInValidRideId() {
         assertThrows(EntityNotFoundException.class,
                 () -> adapterUnderTest.load(new Ride.RideId("1")));
+    }
+
+    @ParameterizedTest
+    @MethodSource("com.ride.demo.adapter.out.persistence.params.RideEntityParameter#validPendingRides")
+    void shouldThrowOptimisticLockExceptionWhenTwoThreadsChangeSameEntity(RideEntity rideEntity, InvoiceEntity invoiceEntity, List<StationEntity> stationEntities) {
+
+        final var ride = rideRepository.save(rideEntity);
+
+        var ride1 = rideRepository.findById(ride.getId()).orElseThrow(EntityNotFoundException::new);
+        var ride2 = rideRepository.findById(ride.getId()).orElseThrow(EntityNotFoundException::new);
+
+        ride1.setStatus("ACCEPTED");
+        rideRepository.save(ride1);
+
+        ride2.setStatus("ACCEPTED");
+        assertThrows(ObjectOptimisticLockingFailureException.class, () -> rideRepository.save(ride2));
     }
 
 }

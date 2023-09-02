@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 public class RideEntityParameter {
     public static Stream<Arguments> validPendingRides() {
-        var rideEntity = new RideEntity(null, "1234", "BIKE", "PENDING", LocalDateTime.now(), LocalDateTime.now());
+        var rideEntity = new RideEntity(null, "1234", "BIKE", "PENDING", 0 ,LocalDateTime.now(), LocalDateTime.now());
         var invoiceEntity = new InvoiceEntity(null, BigDecimal.valueOf(90000), BigDecimal.valueOf(100000), BigDecimal.valueOf(10000), LocalDateTime.now(), LocalDateTime.now(), null);
         var stationEntities = List.of(
                 new StationEntity(null, 1.0, 2.0, 1, "PICKUP", LocalDateTime.now(), LocalDateTime.now(), null),
@@ -22,7 +22,7 @@ public class RideEntityParameter {
     }
 
     public static Stream<RideEntity> validRideEntities() {
-        var rideEntity = new RideEntity(1L, "1234", "BIKE", "PENDING", LocalDateTime.now(), LocalDateTime.now());
+        var rideEntity = new RideEntity(1L, "1234", "BIKE", "PENDING", 0 ,LocalDateTime.now(), LocalDateTime.now());
 
         return Stream.of(rideEntity);
     }

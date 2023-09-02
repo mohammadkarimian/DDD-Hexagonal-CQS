@@ -20,7 +20,7 @@ public class RideParameter {
         var type = Ride.Type.BIKE;
         var status = Ride.Status.PENDING;
         var invoice = new Invoice(null, BigDecimal.valueOf(0), BigDecimal.valueOf(0), BigDecimal.valueOf(0));
-        var ride = new Ride(id, passengerId, invoice, stations, type, status);
+        var ride = new Ride(id, passengerId, invoice, stations, type, status, 0);
 
         return Stream.of(ride);
     }
@@ -35,7 +35,7 @@ public class RideParameter {
         var type = Ride.Type.BIKE;
         var status = Ride.Status.ACCEPTED;
         var invoice = new Invoice(null, BigDecimal.valueOf(0), BigDecimal.valueOf(0), BigDecimal.valueOf(0));
-        var ride = new Ride(id, passengerId, invoice, stations, type, status);
+        var ride = new Ride(id, passengerId, invoice, stations, type, status, 1);
 
         return Stream.of(ride);
     }
@@ -50,7 +50,7 @@ public class RideParameter {
         var type = Ride.Type.BIKE;
         var status = Ride.Status.FINISHED;
         var invoice = new Invoice(null, BigDecimal.valueOf(0), BigDecimal.valueOf(0), BigDecimal.valueOf(0));
-        var ride = new Ride(id, passengerId, invoice, stations, type, status);
+        var ride = new Ride(id, passengerId, invoice, stations, type, status, 2);
 
         return Stream.of(ride);
     }
@@ -66,7 +66,7 @@ public class RideParameter {
         var type = Ride.Type.BIKE;
         var status = Ride.Status.CANCELED;
         var invoice = new Invoice(null, BigDecimal.valueOf(0), BigDecimal.valueOf(0), BigDecimal.valueOf(0));
-        var ride = new Ride(id, passengerId, invoice, stations, type, status);
+        var ride = new Ride(id, passengerId, invoice, stations, type, status, 2);
 
         return Stream.of(ride);
     }

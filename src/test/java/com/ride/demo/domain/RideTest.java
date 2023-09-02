@@ -31,6 +31,7 @@ class RideTest {
         assertEquals(invoice, ride.getInvoice());
         assertEquals(type, ride.getType());
         assertEquals(Ride.Status.PENDING, ride.getStatus());
+        assertNull(ride.getVersion());
     }
 
     @Test
@@ -41,7 +42,7 @@ class RideTest {
         var stations = List.of(new Station(new Station.StationId("1"), 0, Station.Type.PICKUP, new Station.Point(1.0, 1.0)));
 
         var exception = assertThrows(IllegalArgumentException.class,
-                () -> new Ride(null, null, invoice, stations, type, status));
+                () -> new Ride(null, null, invoice, stations, type, status, null));
 
         assertEquals("Passenger id could not be null", exception.getMessage());
 
@@ -55,7 +56,7 @@ class RideTest {
         var stations = List.of(new Station(new Station.StationId("1"), 0, Station.Type.PICKUP, new Station.Point(1.0, 1.0)));
 
         var exception = assertThrows(IllegalArgumentException.class,
-                () -> new Ride(null, passengerId, invoice, stations, type, null));
+                () -> new Ride(null, passengerId, invoice, stations, type, null, null));
 
         assertEquals("Status could not be null", exception.getMessage());
 
@@ -69,7 +70,7 @@ class RideTest {
         var stations = List.of(new Station(new Station.StationId("1"), 0, Station.Type.PICKUP, new Station.Point(1.0, 1.0)));
 
         var exception = assertThrows(IllegalArgumentException.class,
-                () -> new Ride(null, passengerId, invoice, stations, null, status));
+                () -> new Ride(null, passengerId, invoice, stations, null, status, null));
 
         assertEquals("Type could not be null", exception.getMessage());
 
@@ -83,7 +84,7 @@ class RideTest {
         var stations = List.of(new Station(new Station.StationId("1"), 0, Station.Type.PICKUP, new Station.Point(1.0, 1.0)));
 
         var exception = assertThrows(IllegalArgumentException.class,
-                () -> new Ride(null, passengerId, null, stations, type, status));
+                () -> new Ride(null, passengerId, null, stations, type, status, null));
 
         assertEquals("Invoice could not be null", exception.getMessage());
     }
@@ -96,7 +97,7 @@ class RideTest {
         var invoice = new Invoice(null, BigDecimal.valueOf(0), BigDecimal.valueOf(0), BigDecimal.valueOf(0));
 
         var exception = assertThrows(IllegalArgumentException.class,
-                () -> new Ride(null, passengerId, invoice, null, type, status));
+                () -> new Ride(null, passengerId, invoice, null, type, status, null));
 
         assertEquals("Stations could not be null", exception.getMessage());
     }
@@ -110,7 +111,7 @@ class RideTest {
         var stations = new ArrayList<Station>();
 
         var exception = assertThrows(IllegalArgumentException.class,
-                () -> new Ride(null, passengerId, invoice, stations, type, status));
+                () -> new Ride(null, passengerId, invoice, stations, type, status, null));
 
         assertEquals("Stations size could not be zero", exception.getMessage());
     }
