@@ -41,4 +41,13 @@ class SubmitRideServiceTest {
         assertEquals(command.stations().size(), ride.getStations().size());
         assertEquals(command.passengerId().value(), ride.getPassengerId().value());
     }
+
+    @Test
+    void shouldThrowExceptionWithNullCommand() {
+        assertThrows(IllegalArgumentException.class,
+                () -> submitRideService.submit(null)
+        );
+
+        verify(saveRidePort, never()).save(any());
+    }
 }
